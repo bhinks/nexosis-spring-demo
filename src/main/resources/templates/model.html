@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+<head></head>
+<body>
+  <section layout:fragment="content">
+    <h1 th:text="'Dataset: ' + ${datasetName} + ' Model: ' + ${modelId}"/>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Column</th>
+            <th>Data Type</th>
+            <th>Role</th>
+            <th>Imputation</th>
+            <th>Aggregation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="column: ${datasetColumns.keySet()}">
+            <td th:text="${column.toString()}"/>
+            <td th:text="${datasetColumns.get(column).dataType}"/>
+            <td th:text="${datasetColumns.get(column).role}"/>
+            <td th:text="${datasetColumns.get(column).imputation}"/>
+            <td th:text="${datasetColumns.get(column).aggregation}"/>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <form action="/predict" method="post">
+        <input type="hidden" name="modelId" th:value="${modelId}"/>
+        <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>Column</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="column: ${datasetColumns.keySet()}" th:unless="${datasetColumns.get(column).role.equals('target')}">
+                <td th:text="${column.toString()}"/>
+                <td><input type="text" th:name="'prediction|' + ${column.toString()}"/></td>
+              </tr>
+            </tbody>
+          </table>
+          <input type="submit" value="Predict"/>
+      </form>
+  </section>
+</body>
+</html>

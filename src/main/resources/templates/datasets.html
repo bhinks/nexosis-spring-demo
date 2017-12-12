@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+<head></head>
+<body>
+  <section layout:fragment="content">
+    <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th colspan="1">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="dataset: ${datasets}">
+            <td><a th:text="${dataset.dataSetName}" th:href="${'/dataset/' + dataset.dataSetName}"></a></td>
+            <!-- <td><a th:href="${'/dataset/download/' + dataset.dataSetName}"></a>Download Dataset</td>
+            <td><a th:href="${'/session/new/' + dataset.dataSetName}"></a>Generate Model</td> -->
+            <td><a th:href="${'/dataset/delete/' + dataset.dataSetName}">Delete Dataset</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <p>Import data from S3:</p>
+      <form action="/import" method="post">
+        Dataset Name: <input type="text" name="datasetName"/> 
+        Region: <input type="text" name="region"/>
+        Bucket: <input type="text" name="bucket"/>
+        Path: <input type="text" name="path"/>
+        <br/>
+        <input type="submit" value="Import"/>
+      </form>
+  </section>
+</body>
+</html>

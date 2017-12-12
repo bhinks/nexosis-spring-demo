@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+<head></head>
+<body>
+  <section layout:fragment="content">
+      <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>Data Source</th>
+              <th>Model ID</th>
+              <th>Model Type</th>
+              <th>Algorithm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="model: ${modelList}">
+              <td><a th:text="${model.dataSourceName}" th:href="${'/dataset/' + model.dataSourceName}"></a></td>
+              <td><a th:text="${model.modelId}" th:href="${'/model/' + model.modelId}"></a></td>
+              <td th:text="${model.predictionDomain.toString()}"/>
+              <td th:text="${model.algorithm.description}"/>              
+            </tr>
+          </tbody>
+        </table>
+        
+      </section>
+</body>
+</html>

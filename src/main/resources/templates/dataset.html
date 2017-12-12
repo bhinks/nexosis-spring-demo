@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+<head></head>
+<body>
+  <section layout:fragment="content">
+      <h1 th:text="${datasetName}"/>
+
+    <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Column</th>
+            <th>Data Type</th>
+            <th>Role</th>
+            <th>Imputation</th>
+            <th>Aggregation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="column: ${datasetColumns.keySet()}">
+            <td th:text="${column.toString()}"/>
+            <td th:text="${datasetColumns.get(column).dataType}"/>
+            <td th:text="${datasetColumns.get(column).role}"/>
+            <td th:text="${datasetColumns.get(column).imputation}"/>
+            <td th:text="${datasetColumns.get(column).aggregation}"/>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <p>Generate Model</p>
+      <form action="/newModel" method="post">
+        <input th:value="${datasetName}" type="hidden" name="datasetName"/> 
+        Target Column: <input type="text" name="target"/>
+        Prediction Domain: 
+        <select name="predictionType">
+          <option value="classification">Classification</option>
+          <option value="regression">Regression</option>
+        </select>
+        <br/>
+        <input type="submit" value="Generate"/>
+      </form>
+  </section>
+</body>
+</html>

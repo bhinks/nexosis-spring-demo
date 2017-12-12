@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+<head></head>
+<body>
+  <section layout:fragment="content">
+    <p>Prediction Result:</p>
+    <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>Column</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="columnVal: ${prediction}" th:if="${columnVal.key.length()} > 1">
+            <td th:text="${columnVal.key}"/>
+            <td th:text="${columnVal.value}"/>
+          </tr>
+        </tbody>
+      </table>
+  </section>
+</body>
+</html>

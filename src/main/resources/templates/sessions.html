@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+<head></head>
+<body>
+  <section layout:fragment="content">
+      <table class="table table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>Data Source</th>
+              <th>Status</th>
+              <th>Model Type</th>
+              <th>Model ID</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="session: ${sessionList}">
+              <td><a th:text="${session.dataSourceName}" th:href="${'/dataset/' + session.dataSourceName}"></a></td>
+              <td th:text="${session.status.toString()}"/>
+              <td th:text="${session.predictionDomain.toString()}"/>
+              <td th:text="${session.modelId?.toString()}"/>              
+            </tr>
+          </tbody>
+        </table>
+        
+      </section>>
+</body>
+</html>
