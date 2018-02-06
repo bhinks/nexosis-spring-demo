@@ -2,8 +2,9 @@ package com.nexosis.demo;
 
 import com.nexosis.impl.NexosisClient;
 import com.nexosis.impl.NexosisClientException;
-import com.nexosis.model.ModelSessionDetail;
+import com.nexosis.model.ModelSessionRequest;
 import com.nexosis.model.PredictionDomain;
+import com.nexosis.model.SessionQuery;
 import com.nexosis.model.SessionResponse;
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +23,7 @@ public class SessionsController {
 
     @RequestMapping("/sessions")
     public String sessions(Model model) throws NexosisClientException {
-        List<SessionResponse> sessionList = client.getSessions().list().getItems();
+        List<SessionResponse> sessionList = client.getSessions().list(new SessionQuery()).getItems();
         model.addAttribute("sessionList", sessionList);
         return "sessions";
     }
@@ -33,7 +34,7 @@ public class SessionsController {
         @RequestParam("target") String target,
         @RequestParam("predictionType") String predictionType) throws NexosisClientException, IOException {
 
-        ModelSessionDetail model = new ModelSessionDetail();
+        ModelSessionRequest model = new ModelSessionRequest();
         model.setDataSourceName(datasetName);
         model.setTargetColumn(target);
         model.setPredictionDomain(predictionType.equals("classification") ? PredictionDomain.CLASSIFICATION : PredictionDomain.REGRESSION);

@@ -3,6 +3,9 @@ package com.nexosis.demo;
 import com.nexosis.impl.NexosisClient;
 import com.nexosis.impl.NexosisClientException;
 import com.nexosis.model.ImportDetail;
+import com.nexosis.model.ImportDetailQuery;
+import com.nexosis.model.ImportFromS3Request;
+
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +23,7 @@ public class ImportsController {
 
     @RequestMapping("/imports")
     public String imports(Model model) throws NexosisClientException {
-        List<ImportDetail> importList = client.getImports().list(0,1000).getItems();
+        List<ImportDetail> importList = client.getImports().list(new ImportDetailQuery()).getItems();
         model.addAttribute("importList", importList);
         return "imports";
     }
@@ -32,7 +35,12 @@ public class ImportsController {
         @RequestParam("bucket") String bucket,
         @RequestParam("path") String path) throws NexosisClientException, IOException {
 
-        client.getImports().importFromS3(datasetName, bucket, path, region);
+        ImportFromS3Request importRequest = new ImportFromS3Request();
+        importRequest.setDataSetName(datasetName);
+        importRequest.setRegion(region);
+        importRequest.setBucket(bucket);
+        importRequest.setPath(path);
+        client.getImports().importFromS3(importRequest);
         response.sendRedirect("/imports");
     }
 }

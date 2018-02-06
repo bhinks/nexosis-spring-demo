@@ -2,7 +2,9 @@ package com.nexosis.demo;
 
 import com.nexosis.impl.NexosisClient;
 import com.nexosis.impl.NexosisClientException;
+import com.nexosis.model.DataSetDataQuery;
 import com.nexosis.model.DataSetDeleteOptions;
+import com.nexosis.model.DataSetRemoveCriteria;
 import com.nexosis.model.DataSetSummary;
 import java.io.IOException;
 import java.util.List;
@@ -27,14 +29,18 @@ public class DatasetsController {
 
     @RequestMapping("/dataset/{datasetName}")
     public String dataset(Model model, @PathVariable("datasetName") String datasetName) throws NexosisClientException {
-        model.addAttribute("datasetColumns", client.getDataSets().get(datasetName).getColumns().getsetColumnMetadata());
+        DataSetDataQuery dataQuery = new DataSetDataQuery();
+        dataQuery.setName(datasetName);
+        model.addAttribute("datasetColumns", client.getDataSets().get(dataQuery).getColumns().getsetColumnMetadata());
         model.addAttribute("datasetName", datasetName);
         return "dataset";
     }
 
     @RequestMapping("/dataset/delete/{datasetName}")
     public void delete(HttpServletResponse response, @PathVariable("datasetName") String datasetName) throws NexosisClientException, IOException {
-        client.getDataSets().remove(datasetName, DataSetDeleteOptions.CASCADE_ALL);
+        DataSetRemoveCriteria removeCriteria = new DataSetRemoveCriteria(datasetName);
+        removeCriteria.setOption(DataSetDeleteOptions.CASCADE_ALL);
+        client.getDataSets().remove(removeCriteria);
         response.sendRedirect("/datasets");
     }
 
