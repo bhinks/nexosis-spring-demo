@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ResultsController {
 
-    private NexosisClient client = new NexosisClient(System.getenv("NEXOSIS_API_KEY"));
+    private NexosisClient client = new NexosisClient(System.getenv("NEXOSIS_API_KEY"), System.getenv("NEXOSIS_BASE_URL"));
 
     @RequestMapping("/results")
     public String datasets(Model model) {

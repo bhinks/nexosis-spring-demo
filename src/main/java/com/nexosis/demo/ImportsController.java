@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ImportsController {
 
-    private NexosisClient client = new NexosisClient(System.getenv("NEXOSIS_API_KEY"));
+    private NexosisClient client = new NexosisClient(System.getenv("NEXOSIS_API_KEY"), System.getenv("NEXOSIS_BASE_URL"));
 
     @RequestMapping("/imports")
     public String imports(Model model) throws NexosisClientException {

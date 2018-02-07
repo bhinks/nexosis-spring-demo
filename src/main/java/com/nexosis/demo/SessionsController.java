@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class SessionsController {
 
-    private NexosisClient client = new NexosisClient(System.getenv("NEXOSIS_API_KEY"));
+    private NexosisClient client = new NexosisClient(System.getenv("NEXOSIS_API_KEY"), System.getenv("NEXOSIS_BASE_URL"));
 
     @RequestMapping("/sessions")
     public String sessions(Model model) throws NexosisClientException {
