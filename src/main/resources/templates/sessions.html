@@ -16,10 +16,11 @@
           </thead>
           <tbody>
             <tr th:each="session: ${sessionList}">
+              <td><a th:text="${session.sessionId.toString()}" th:href="${'/session/' + session.sessionId.toString()}"></a></td>
               <td><a th:text="${session.dataSourceName}" th:href="${'/dataset/' + session.dataSourceName}"></a></td>
               <td th:text="${session.status.toString()}"/>
               <td th:text="${session.predictionDomain.toString()}"/>
-              <td th:text="${session.modelId?.toString()}"/>              
+              <td><a th:text="${session.modelId?.toString()}" th:href="${'/model/' + session.modelId?.toString()}"></a></td>
             </tr>
           </tbody>
         </table>

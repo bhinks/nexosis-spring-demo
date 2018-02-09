@@ -33,7 +33,7 @@ public class ModelsController {
 
     @RequestMapping("/model/{modelId}")
     public String showModel(Model model, @PathVariable("modelId") UUID modelId) throws NexosisClientException {
-        ModelSummary nexoModel = getModelSummary(modelId);
+        ModelSummary nexoModel = client.getModels().get(modelId);
         String datasetName = nexoModel.getDataSourceName();
         model.addAttribute("datasetColumns", nexoModel.getColumns().getsetColumnMetadata());
         model.addAttribute("datasetName", datasetName);
@@ -65,17 +65,6 @@ public class ModelsController {
         ModelPredictionResult prediction = client.getModels().predict(modelPrediction);
         model.addAttribute("prediction", prediction.getData().get(0));
         return "prediction";
-    }
-
-    private ModelSummary getModelSummary(UUID modelId) throws IllegalArgumentException, NexosisClientException {
-        List<ModelSummary> modelList = client.getModels().list(new ModelSummaryQuery()).getItems();
-        ModelSummary model = new ModelSummary();
-        for (ModelSummary mod : modelList) {
-            if(mod.getModelId().compareTo(modelId) == 0) {
-                model = mod;
-            }
-        }
-        return model;
     }
  
 }

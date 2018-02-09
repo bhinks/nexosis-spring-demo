@@ -8,9 +8,11 @@ import com.nexosis.model.SessionQuery;
 import com.nexosis.model.SessionResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +28,17 @@ public class SessionsController {
         List<SessionResponse> sessionList = client.getSessions().list(new SessionQuery()).getItems();
         model.addAttribute("sessionList", sessionList);
         return "sessions";
+    }
+
+    @RequestMapping("/session/{sessionId}")
+    public String showSession(Model model, @PathVariable("sessionId") UUID sessionId) throws NexosisClientException {
+        SessionResponse nexoSession = client.getSessions().get(sessionId);
+        String datasetName = nexoSession.getDataSourceName();
+        model.addAttribute("datasetName", datasetName);
+        model.addAttribute("nexoSession", nexoSession);
+        model.addAttribute("contestantList", client.getSessions().getContest().getContest(sessionId).getContestants());
+        
+        return "session";
     }
 
     @RequestMapping(value = "/newModel", method = RequestMethod.POST)

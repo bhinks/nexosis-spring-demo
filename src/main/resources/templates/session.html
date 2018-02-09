@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" 
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layout">
+<head></head>
+<body>
+    <section layout:fragment="content">
+    <h1 th:text="'Dataset: ' + ${datasetName} + ' Session: ' + ${sessionId}"/>
+
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Model Type</th>
+                <th>Model ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${nexoSession.status.toString()}"/>
+                <td th:text="${nexoSession.predictionDomain.toString()}"/>
+                <td><a th:text="${nexoSession.modelId?.toString()}" th:href="${'/model/' + nexoSession.modelId?.toString()}"></a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>Contestant</th>
+                    <th>Algorithm</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="contestant: ${contestantList}">
+                    <td><a th:text="${contestant.contestantId.toString()}" th:href="${'/session/contestant/' + contestant.contestantId.toString()}"></a></td>
+                    <td th:text="${contestant.algorithm}"/>
+                  </tr>
+                </tbody>
+              </table>
+        
+        </section>
+</body>
+</html>
